@@ -6,8 +6,11 @@ import { Heroes } from '../../interfaces/heroes.interface';
 @Component({
   selector: 'app-listado',
   templateUrl: './listado.component.html',
-  styles: [
-  ]
+  styles: [`
+      mat-card {
+        margin: 20px;
+      }
+  `]
 })
 export class ListadoComponent implements OnInit {
 
@@ -17,7 +20,7 @@ export class ListadoComponent implements OnInit {
 
   ngOnInit(): void {
     this.heroesService.getHeroes()
-    .subscribe(heroe => this.heroes = heroe)
+      .subscribe(heroe => this.heroes = heroe)
   }
 
 }
