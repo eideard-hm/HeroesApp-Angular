@@ -29,7 +29,7 @@ const routes: Routes = [
         component: ListadoComponent
       },
       {
-        path: 'heroe/:id',
+        path: ':id',
         component: HeroeComponent
       },
       {
