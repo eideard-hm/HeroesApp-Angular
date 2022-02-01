@@ -3,6 +3,7 @@ import { Heroes, Publisher } from '../../interfaces/heroes.interface';
 import { HeroesService } from '../../services/heroes.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-agregar',
@@ -41,8 +42,10 @@ export class AgregarComponent implements OnInit {
   }
 
   constructor(private readonly heroesService: HeroesService,
-    private readonly activeRoute: ActivatedRoute,
-    private readonly router: Router) { }
+              private readonly activeRoute: ActivatedRoute,
+              private readonly router: Router,
+              private readonly snackBar: MatSnackBar
+    ) { }
 
   ngOnInit(): void {
 
@@ -70,15 +73,35 @@ export class AgregarComponent implements OnInit {
     //editar
     if (this.heroe.id) {
       this.heroesService.updateHeroe(this.heroe)
-        .subscribe(heroe => this.router.navigate(['/heroes']))
-      return
+        .subscribe(heroe => this.showSnackBar(`Héroe ${heroe.superhero} actualizado.`));
+      return;
     }
 
     //crear
-
     this.heroesService.saveHeroe(this.heroe)
-      .subscribe(heroe => this.router.navigate(['/heroes/editar', heroe.id]))
+      .subscribe(heroe => {
+        this.router.navigate(['/heroes/editar', heroe.id])
+        this.showSnackBar('Héroe actualizado.')
+      })
 
+  }
+
+  delete(){
+    if(this.heroe.id){
+      this.heroesService.deleteHeroe(this.heroe.id!)
+      .subscribe({
+        next: res => console.log(res),
+        error: () => this.router.navigate(['/heroes'])
+      })
+    }
+
+    this.router.navigate(['/heroes']);
+  }
+
+  showSnackBar(msj: string){
+    this.snackBar.open(msj, 'Ok!', {
+      duration: 2500
+    })
   }
 
 }
