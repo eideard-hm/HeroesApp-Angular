@@ -27,7 +27,10 @@ export class HeroeComponent implements OnInit {
       .pipe(
         switchMap(({ id }) => this.heroesService.getHeroeById(id))
       )
-      .subscribe(heroe => this.heroe = heroe)
+      .subscribe({
+        next: heroe => this.heroe = heroe,
+        error: () => this.router.navigate(['/heroes/listado'])
+      })
   }
 
   regresar(){
