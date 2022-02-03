@@ -22,6 +22,7 @@ export class HeroesHomeComponent{
   }
 
   logout(){
+    localStorage.removeItem('userAuth');
     this.router.navigate(['./auth/login']);
   }
 
