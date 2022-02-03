@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../auth/services/auth.service';
+import { Auth } from '../../../auth/interfaces/auth.interface';
 
 @Component({
   selector: 'app-heroes-home',
@@ -9,11 +12,17 @@ import { Component, OnInit } from '@angular/core';
     }
     `]
 })
-export class HeroesHomeComponent implements OnInit {
+export class HeroesHomeComponent{
 
-  constructor() { }
+  constructor(private readonly router: Router,
+              private readonly authService: AuthService) { }
 
-  ngOnInit(): void {
+  get getUserAuth(){
+    return this.authService.getUserAuth;
+  }
+
+  logout(){
+    this.router.navigate(['./auth/login']);
   }
 
 }
